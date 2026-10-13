@@ -1,27 +1,26 @@
-# Laboratório: Teste de Mutação com a "Calculadora Mutante"
+# Teste de mutação - operações matemáticas
 
-Bem-vindo ao trabalho prático de Teste de Mutação. O objetivo deste projeto é usar a ferramenta StrykerJS para avaliar e fortalecer uma suíte de testes que, à primeira vista, parece boa.
+Entrega da atividade **Análise de Eficácia de Testes com Teste de Mutação** da disciplina Teste de Software. O projeto deriva de [CleitonSilvaT/operacoes-mutante](https://github.com/CleitonSilvaT/operacoes-mutante).
 
-## Contexto
+## Executar
 
-Este repositório contém uma biblioteca de cálculos simples. A suíte de testes inicial em `__tests__/` foi projetada para ter uma alta **cobertura de código**, mas esconde fraquezas que só o **teste de mutação** pode revelar.
+```bash
+npm ci
+npm test -- --runInBand
+npm run coverage -- --runInBand
+npm run mutate
+```
 
-Sua missão é atuar como um engenheiro de qualidade para encontrar essas fraquezas e escrever testes mais robustos para corrigi-las.
+O Stryker grava o relatório navegável em `reports/mutation/mutation.html`. Os relatórios preservados de cada etapa estão em `evidencias/`, e o [relatório escrito](output/pdf/Relatorio_Teste_Mutacao_Joao_Rajao.pdf) contém a análise e capturas de tela.
 
-## Tarefas
+## Resultados verificados
 
-1.  **Prepare o ambiente:** Clone o repositório e rode `npm install`.
-2.  **Análise Inicial:**
-    - Rode `npm test` para ver os testes passando.
-    - Rode `npm run coverage` e anote o percentual de cobertura.
-3.  **Análise de Mutação:**
-    - Configure o StrykerJS (`npx stryker init`).
-    - Execute a análise com `npx stryker run` (ou `npm run mutate` após configurar o script).
-    - Abra o relatório HTML e analise os **mutantes que sobreviveram**.
-4.  **Aprimore os Testes:**
-    - Para cada mutante sobrevivente, entenda por que ele não foi "morto".
-    - Adicione novos testes em `__tests__/operacoes.test.js` focados em asserções mais específicas para matar esses mutantes.
-5.  **Validação Final:**
-    - Rode o Stryker novamente e verifique se sua pontuação de mutação aumentou, idealmente para mais de 95%.
+| Etapa | Testes | Cobertura de linhas | Score de mutação | Detalhes |
+| --- | ---: | ---: | ---: | --- |
+| Suíte original | 50 | 98,64% | 73,71% | 154 mortos, 3 timeouts, 44 sobreviventes, 12 sem cobertura |
+| Novos testes, código original | 64 | - | 96,71% | 203 mortos, 3 timeouts, 7 sobreviventes |
+| Entrega final | 64 | 100% | 100,00% | 195 mortos, 4 timeouts, 0 sobreviventes, 4 ignorados |
 
-Siga as instruções do documento do trabalho para a entrega final. Boa sorte!
+O ganho atribuível **somente aos testes** é de 23,00 pontos percentuais (73,71% para 96,71%). Os sete sobreviventes restantes no código original são equivalentes para os casos de uso válidos: cinco no tratamento redundante de `fatorial` e `produtoArray` e dois em comparações inclusivas nas bordas de `clamp`. Os ramos redundantes foram removidos; quatro mutantes `EqualityOperator` em `clamp` receberam justificativas `Stryker disable next-line`. Assim, o score final de 100% exclui quatro mutantes marcados `Ignored`, visíveis no relatório.
+
+O PDF apresenta três mutantes da primeira execução, explica por que sobreviveram e os testes que os mataram. A matrícula não foi fornecida e está assinalada como tal na capa.

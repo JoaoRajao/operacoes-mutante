@@ -74,3 +74,69 @@ describe('Suíte de Testes Fraca para 50 Operações Aritméticas', () => {
   test('49. deve calcular o triplo de um número', () => { expect(triplo(10)).toBe(30); });
   test('50. deve calcular a metade de um número', () => { expect(metade(20)).toBe(10); });
 });
+
+describe('Casos de fronteira e caminhos antes não verificados', () => {
+  test('divisão por zero preserva a mensagem de erro', () => {
+    expect(() => divisao(5, 0)).toThrow('Divisão por zero não é permitida.');
+  });
+  test('raiz quadrada: negativo rejeitado e zero aceito', () => {
+    expect(() => raizQuadrada(-4)).toThrow('Não é possível calcular a raiz quadrada de um número negativo.');
+    expect(raizQuadrada(0)).toBe(0);
+  });
+  test('fatorial: negativo rejeitado; zero, um e dois', () => {
+    expect(() => fatorial(-1)).toThrow('Fatorial não é definido para números negativos.');
+    expect(fatorial(0)).toBe(1);
+    expect(fatorial(1)).toBe(1);
+    expect(fatorial(2)).toBe(2);
+  });
+  test('média e produto de arrays vazios', () => {
+    expect(mediaArray([])).toBe(0);
+    expect(produtoArray([])).toBe(1);
+  });
+  test('máximo e mínimo de array vazio lançam erro', () => {
+    expect(() => maximoArray([])).toThrow('Array vazio не possui valor máximo.');
+    expect(() => minimoArray([])).toThrow('Array vazio не possui valor mínimo.');
+  });
+  test('paridade rejeita o caso oposto', () => {
+    expect(isPar(7)).toBe(false);
+    expect(isImpar(8)).toBe(false);
+  });
+  test('primalidade distingue limites e compostos', () => {
+    expect(isPrimo(0)).toBe(false);
+    expect(isPrimo(1)).toBe(false);
+    expect(isPrimo(2)).toBe(true);
+    expect(isPrimo(4)).toBe(false);
+    expect(isPrimo(9)).toBe(false);
+  });
+  test('clamp limita valores abaixo e acima; mantém bordas', () => {
+    expect(clamp(-1, 0, 10)).toBe(0);
+    expect(clamp(11, 0, 10)).toBe(10);
+    expect(clamp(0, 0, 10)).toBe(0);
+    expect(clamp(10, 0, 10)).toBe(10);
+  });
+  test('divisibilidade rejeita resto diferente de zero', () => {
+    expect(isDivisivel(10, 3)).toBe(false);
+  });
+  test('conversões de temperatura fora do ponto de congelamento', () => {
+    expect(celsiusParaFahrenheit(100)).toBeCloseTo(212);
+    expect(fahrenheitParaCelsius(212)).toBeCloseTo(100);
+  });
+  test('inverso de zero lança erro específico', () => {
+    expect(() => inverso(0)).toThrow('Não é possível inverter o número zero.');
+  });
+  test('comparações incluem igualdade e resultado falso', () => {
+    expect(isMaiorQue(5, 5)).toBe(false);
+    expect(isMaiorQue(4, 5)).toBe(false);
+    expect(isMenorQue(5, 5)).toBe(false);
+    expect(isMenorQue(6, 5)).toBe(false);
+    expect(isEqual(5, 6)).toBe(false);
+  });
+  test('mediana rejeita vazio e ordena entrada ímpar', () => {
+    expect(() => medianaArray([])).toThrow('Array vazio не possui mediana.');
+    expect(medianaArray([9, 1, 5])).toBe(5);
+  });
+  test('mediana par faz média dos elementos centrais ordenados', () => {
+    expect(medianaArray([8, 1, 4, 2])).toBe(3);
+    expect(medianaArray([-9, 3, -1, 10])).toBe(1);
+  });
+});
